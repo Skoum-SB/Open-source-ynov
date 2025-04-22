@@ -37,7 +37,7 @@ def main():
         # Vérifier le nombre d'arguments
         if len(sys.argv) < 2:
             print("Usage: python script.py <nombre_de_premiers> [nom_du_fichier]")
-            print("Exemple: python script.py 1000 nombres_premiers.txt")
+            print("Exemple: python premier.py 1000 nombres_premiers.txt")
             return
         
         # Récupérer le nombre de nombres premiers depuis les arguments
