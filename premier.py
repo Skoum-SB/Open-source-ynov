@@ -63,10 +63,11 @@ def afficher_animal(nombre):
 def main():
     # Vérifier le nombre d'arguments
     if len(sys.argv) < 2:
-        print("Usage : python premier.py <nombre_de_premiers> [nom_du_fichier]")
-        return
-
-    try:
+            print("Usage: python premier.py <nombre_de_premiers> [nom_du_fichier]")
+            print("Exemple: python premier.py 1000 nombres_premiers.txt")
+            return
+    try: 
+        # Récupérer le nombre de nombres premiers depuis les arguments
         n = int(sys.argv[1])
         if n <= 0:
             print("Erreur: Le nombre doit être positif.")
