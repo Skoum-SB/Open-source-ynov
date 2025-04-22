@@ -34,31 +34,55 @@ def ecrire_dans_fichier(premiers, nom_fichier="nombres_premiers.txt"):
 
 def main():
     try:
-        # Vérifier le nombre d'arguments
-        if len(sys.argv) < 2:
-            print("Usage: python script.py <nombre_de_premiers> [nom_du_fichier]")
-            print("Exemple: python script.py 1000 nombres_premiers.txt")
-            return
-        
-        # Récupérer le nombre de nombres premiers depuis les arguments
-        n = int(sys.argv[1])
-        if n <= 0:
-            print("Erreur: Le nombre doit être positif.")
-            return
-        
-        # Récupérer le nom du fichier s'il est fourni
-        nom_fichier = "nombres_premiers.txt"  # Valeur par défaut
-        if len(sys.argv) >= 3:
-            nom_fichier = sys.argv[2]
-        
-        print(f"Calcul des {n} premiers nombres premiers en cours...")
-        premiers = generer_n_premiers(n)
-        ecrire_dans_fichier(premiers, nom_fichier)
+        # Vérifier si le script est exécuté sans arguments
+        if len(sys.argv) == 1:
+            # Vérifier si le nombre est positif mais redemander si ce n'est pas le cas
+            n = int(input("Combien de nombres premiers voulez-vous générer ? "))
+            while n <= 0:
+                print("Erreur: Le nombre doit être positif.")
+                n = int(input("Combien de nombres premiers voulez-vous générer ? "))
+            #Puis demander le nom du fichier
+            nom_fichier = input("Quel est le nom du fichier ? (par défaut 'nombres_premiers.txt') ")
+            if nom_fichier == "":
+                nom_fichier = "nombres_premiers.txt"
+            print(f"Calcul des {n} premiers nombres premiers en cours...")
+            premiers = generer_n_premiers(n)
+            ecrire_dans_fichier(premiers, nom_fichier)
+        elif len(sys.argv) == 2:
+            # Vérifier si le nombre est positif mais redemander si ce n'est pas le cas
+            n = int(sys.argv[1])
+            while n <= 0:
+                print("Erreur: Le nombre doit être positif.")
+                n = int(input("Combien de nombres premiers voulez-vous générer ? "))
+            #Puis demander le nom du fichier
+            nom_fichier = input("Quel est le nom du fichier ? (par défaut 'nombres_premiers.txt') ")
+            if nom_fichier == "":
+                nom_fichier = "nombres_premiers.txt"
+            print(f"Calcul des {n} premiers nombres premiers en cours...")
+            premiers = generer_n_premiers(n)
+            ecrire_dans_fichier(premiers, nom_fichier)
+        elif len(sys.argv) == 3:
+            # Vérifier si le nombre est positif mais redemander si ce n'est pas le cas
+            n = int(sys.argv[1])
+            while n <= 0:
+                print("Erreur: Le nombre doit être positif.")
+                n = int(input("Combien de nombres premiers voulez-vous générer ? "))
+            #Vérifier que le nom du fichier est valdie (txt)
+            if not sys.argv[2].endswith(".txt"):
+                print("Erreur: Le nom du fichier doit se terminer par '.txt'")
+                return
+            # Récupère le nom du fichier depuis les arguments
+            if len(sys.argv) >= 3:
+                nom_fichier = sys.argv[2]
+                print(f"Calcul des {n} premiers nombres premiers en cours...")
+                premiers = generer_n_premiers(n)
+                ecrire_dans_fichier(premiers, nom_fichier)
         
     except ValueError:
         print("Erreur: Veuillez entrer un nombre entier valide.")
     except Exception as e:
         print(f"Une erreur s'est produite: {e}")
 
+print("test")
 if __name__ == "__main__":
     main()
