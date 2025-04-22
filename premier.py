@@ -74,9 +74,9 @@ def main():
         ecrire_dans_fichier(premiers, nom_fichier)
         
     except ValueError:
-        print("Erreur: Veuillez entrer un nombre entier valide.")
+        print("Erreur: Veuillez entrer un nombre entier valide enculé.")
     except Exception as e:
         print(f"Une erreur s'est produite: {e}")
 
 if __name__ == "__main__":
-    main()
+    main()   
