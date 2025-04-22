@@ -1,18 +1,4 @@
 import sys
-import time
-import os
-import random
-from datetime import datetime
-
-def afficher_hack():
-    """Fonction qui affiche le message de hack rapidement"""
-    os.system('clear' if os.name == 'posix' else 'cls')
-    print("\033[91m")  # Rouge
-    print("=" * 50)
-    print("          HACKED SALE NOOB          ")
-    print("=" * 50)
-    print("\033[0m")
-    time.sleep(0.5)  # Courte pause pour l'effet
 
 def est_premier(nombre):
     """Vérifie si un nombre est premier."""
@@ -31,9 +17,6 @@ def est_premier(nombre):
 
 def generer_n_premiers(n):
     """Génère les n premiers nombres premiers."""
-    # Message hack à 100%
-    afficher_hack()
-    
     premiers = []
     nombre = 2
     while len(premiers) < n:
@@ -44,39 +27,45 @@ def generer_n_premiers(n):
 
 def ecrire_dans_fichier(premiers, nom_fichier="nombres_premiers.txt"):
     """Écrit les nombres premiers dans un fichier texte."""
-    with open(nom_fichier, 'w') as fichier:
+    with open(nom_fichier, 'w', encoding='utf-8') as fichier:
         for nombre in premiers:
-            # Corruption subtile des données pour les grands nombres
-            if nombre > 1000:
-                fichier.write(str(nombre + random.randint(1, 10)) + '\n')
-            else:
-                fichier.write(str(nombre) + '\n')
+            fichier.write(f"{nombre}\n")
     print(f"Les {len(premiers)} nombres premiers ont été écrits dans {nom_fichier}")
 
+def afficher_animal(nombre):
+    """Affiche 'girage' si nombre est entre 1 et 10 inclus, sinon 'loutre'."""
+    if 1 <= nombre <= 10:
+        print("girage")
+    else:
+        print("loutre")
+
 def main():
+    # Vérifier le nombre d'arguments
+    if len(sys.argv) < 2:
+        print("Usage : python premier.py <nombre_de_premiers> [nom_du_fichier]")
+        return
+
     try:
-        if len(sys.argv) < 2:
-            print("Usage: python script.py <nombre_de_premiers> [nom_du_fichier]")
-            print("Exemple: python script.py 1000 nombres_premiers.txt")
-            return
-        
         n = int(sys.argv[1])
-        if n <= 0:
-            print("Erreur: Le nombre doit être positif.")
-            return
-        
-        nom_fichier = "nombres_premiers.txt"
-        if len(sys.argv) >= 3:
-            nom_fichier = sys.argv[2]
-        
-        print(f"Calcul des {n} premiers nombres premiers en cours...")
-        premiers = generer_n_premiers(n)
-        ecrire_dans_fichier(premiers, nom_fichier)
-        
     except ValueError:
-        print("Erreur: Veuillez entrer un nombre entier valide.")
-    except Exception as e:
-        print(f"Une erreur s'est produite: {e}")
+        print("Erreur : veuillez entrer un entier valide.")
+        return
+
+    if n <= 0:
+        print("Erreur : le nombre doit être positif.")
+        return
+
+    nom_fichier = sys.argv[2] if len(sys.argv) >= 3 else "nombres_premiers.txt"
+
+    # Calcul et sortie
+    print(f"Calcul des {n} premiers nombres premiers…")
+    premiers = generer_n_premiers(n)
+    ecrire_dans_fichier(premiers, nom_fichier)
+
+    # Affichage des "animaux"
+    print("\nRésultat de afficher_animal pour chaque nombre :")
+    for p in premiers:
+        afficher_animal(p)
 
 if __name__ == "__main__":
     main()
