@@ -97,9 +97,15 @@ def main():
         
 
     except ValueError:
-        print("Erreur: Veuillez entrer un nombre entier valide.")
-    except Exception as e:
-        print(f"Une erreur s'est produite: {e}")
+        print("Erreur : veuillez entrer un entier valide.")
+        return
 
+    if n <= 0:
+        print("Erreur : le nombre doit être positif.")
+        return
+
+    nom_fichier = sys.argv[2] if len(sys.argv) >= 3 else "nombres_premiers.txt"
+
+print("test")
 if __name__ == "__main__":
     main()
