@@ -52,14 +52,6 @@ def generer_et_ecrire_n_premiers(n, nom_fichier="nombres_premiers.txt"):
         print()  # Saut de ligne après la barre de progression
         print(f"Les {n} nombres premiers ont été écrits dans {nom_fichier}")
 
-
-def afficher_animal(nombre):
-    """Affiche 'girage' si nombre est entre 1 et 10 inclus, sinon 'loutre'."""
-    if 1 <= nombre <= 10:
-        print("girage")
-    else:
-        print("loutre")
-
 def main():
     # Vérifier le nombre d'arguments
     if len(sys.argv) < 2:
@@ -78,7 +70,7 @@ def main():
         if len(sys.argv) >= 3:
             nom_fichier = sys.argv[2]
         
-        generer_et_ecrire_n_premiers(n, nom_fichier)
+        premiers = generer_et_ecrire_n_premiers(n, nom_fichier)
 
     except ValueError:
         print("Erreur : veuillez entrer un entier valide.")
@@ -89,16 +81,6 @@ def main():
         return
 
     nom_fichier = sys.argv[2] if len(sys.argv) >= 3 else "nombres_premiers.txt"
-
-    # Calcul et sortie
-    print(f"Calcul des {n} premiers nombres premiers…")
-    premiers = generer_n_premiers(n)
-    
-
-    # Affichage des "animaux"
-    print("\nRésultat de afficher_animal pour chaque nombre :")
-    for p in premiers:
-        afficher_animal(p)
 
 if __name__ == "__main__":
     main()
