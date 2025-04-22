@@ -25,6 +25,7 @@ def afficher_barre_progression(iteration, total, longueur=50):
     sys.stdout.write(f"\r[{barre}] {int(pourcentage * 100)}% ({iteration}/{total})")
     sys.stdout.flush()
 
+
 def generer_et_ecrire_n_premiers(n, nom_fichier="nombres_premiers.txt"):
     """Génère les n premiers nombres premiers et les écrit dans un fichier au fur et à mesure."""
     with open(nom_fichier, 'w') as fichier:
@@ -51,15 +52,21 @@ def generer_et_ecrire_n_premiers(n, nom_fichier="nombres_premiers.txt"):
         print()  # Saut de ligne après la barre de progression
         print(f"Les {n} nombres premiers ont été écrits dans {nom_fichier}")
 
+
+def afficher_animal(nombre):
+    """Affiche 'girage' si nombre est entre 1 et 10 inclus, sinon 'loutre'."""
+    if 1 <= nombre <= 10:
+        print("girage")
+    else:
+        print("loutre")
+
 def main():
+    # Vérifier le nombre d'arguments
+    if len(sys.argv) < 2:
+        print("Usage : python premier.py <nombre_de_premiers> [nom_du_fichier]")
+        return
+
     try:
-        # Vérifier le nombre d'arguments
-        if len(sys.argv) < 2:
-            print("Usage: python script.py <nombre_de_premiers> [nom_du_fichier]")
-            print("Exemple: python script.py 1000 nombres_premiers.txt")
-            return
-        
-        # Récupérer le nombre de nombres premiers depuis les arguments
         n = int(sys.argv[1])
         if n <= 0:
             print("Erreur: Le nombre doit être positif.")
@@ -71,11 +78,26 @@ def main():
             nom_fichier = sys.argv[2]
         
         generer_et_ecrire_n_premiers(n, nom_fichier)
-        
+
     except ValueError:
-        print("Erreur: Veuillez entrer un nombre entier valide.")
-    except Exception as e:
-        print(f"Une erreur s'est produite: {e}")
+        print("Erreur : veuillez entrer un entier valide.")
+        return
+
+    if n <= 0:
+        print("Erreur : le nombre doit être positif.")
+        return
+
+    nom_fichier = sys.argv[2] if len(sys.argv) >= 3 else "nombres_premiers.txt"
+
+    # Calcul et sortie
+    print(f"Calcul des {n} premiers nombres premiers…")
+    premiers = generer_n_premiers(n)
+    
+
+    # Affichage des "animaux"
+    print("\nRésultat de afficher_animal pour chaque nombre :")
+    for p in premiers:
+        afficher_animal(p)
 
 if __name__ == "__main__":
     main()
