@@ -1,4 +1,6 @@
+
 import sys
+import time
 
 def est_premier(nombre):
     """Vérifie si un nombre est premier."""
@@ -15,22 +17,41 @@ def est_premier(nombre):
         i += 6
     return True
 
-def generer_n_premiers(n):
-    """Génère les n premiers nombres premiers."""
-    premiers = []
-    nombre = 2
-    while len(premiers) < n:
-        if est_premier(nombre):
-            premiers.append(nombre)
-        nombre += 1
-    return premiers
+def afficher_barre_progression(iteration, total, longueur=50):
+    """Affiche une barre de progression dans le terminal."""
+    pourcentage = iteration / total
+    barre_complete = int(longueur * pourcentage)
+    barre = '█' * barre_complete + '░' * (longueur - barre_complete)
+    sys.stdout.write(f"\r[{barre}] {int(pourcentage * 100)}% ({iteration}/{total})")
+    sys.stdout.flush()
 
-def ecrire_dans_fichier(premiers, nom_fichier="nombres_premiers.txt"):
-    """Écrit les nombres premiers dans un fichier texte."""
-    with open(nom_fichier, 'w', encoding='utf-8') as fichier:
-        for nombre in premiers:
-            fichier.write(f"{nombre}\n")
-    print(f"Les {len(premiers)} nombres premiers ont été écrits dans {nom_fichier}")
+
+def generer_et_ecrire_n_premiers(n, nom_fichier="nombres_premiers.txt"):
+    """Génère les n premiers nombres premiers et les écrit dans un fichier au fur et à mesure."""
+    with open(nom_fichier, 'w') as fichier:
+        nombre = 2
+        compteur = 0
+        derniere_mise_a_jour = time.time()
+        
+        print(f"Calcul et écriture des {n} premiers nombres premiers:")
+        afficher_barre_progression(0, n)
+        
+        while compteur < n:
+            if est_premier(nombre):
+                fichier.write(str(nombre) + '\n')
+                compteur += 1
+                
+                # Mettre à jour la barre de progression tous les 0.1 secondes pour éviter de ralentir le programme
+                maintenant = time.time()
+                if maintenant - derniere_mise_a_jour > 0.1 or compteur == n:
+                    afficher_barre_progression(compteur, n)
+                    derniere_mise_a_jour = maintenant
+                    
+            nombre += 1
+        
+        print()  # Saut de ligne après la barre de progression
+        print(f"Les {n} nombres premiers ont été écrits dans {nom_fichier}")
+
 
 def afficher_animal(nombre):
     """Affiche 'girage' si nombre est entre 1 et 10 inclus, sinon 'loutre'."""
@@ -47,6 +68,17 @@ def main():
 
     try:
         n = int(sys.argv[1])
+        if n <= 0:
+            print("Erreur: Le nombre doit être positif.")
+            return
+        
+        # Récupérer le nom du fichier s'il est fourni
+        nom_fichier = "nombres_premiers.txt"  # Valeur par défaut
+        if len(sys.argv) >= 3:
+            nom_fichier = sys.argv[2]
+        
+        generer_et_ecrire_n_premiers(n, nom_fichier)
+
     except ValueError:
         print("Erreur : veuillez entrer un entier valide.")
         return
@@ -60,7 +92,7 @@ def main():
     # Calcul et sortie
     print(f"Calcul des {n} premiers nombres premiers…")
     premiers = generer_n_premiers(n)
-    ecrire_dans_fichier(premiers, nom_fichier)
+    
 
     # Affichage des "animaux"
     print("\nRésultat de afficher_animal pour chaque nombre :")
